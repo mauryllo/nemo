@@ -62,7 +62,7 @@ def ping(destination, timeout, payload_size):
 					ip, port = response[4]
 					destination=ip
 					break
-		
+
 		#create input and ouput sockets
 		in_sock=socket.socket(af, socket.SOCK_RAW, socket.IPPROTO_ICMP)
 		out_sock=socket.socket(af, socket.SOCK_RAW, socket.IPPROTO_ICMP)
@@ -88,6 +88,7 @@ def ping(destination, timeout, payload_size):
 		out_sock.sendto(packet.packet, (destination, 0))
 	#better exception management!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	except Exception as e:
+		logging.debug(e)
 		return False
 	
 	#wait for reply
@@ -107,7 +108,7 @@ def ping(destination, timeout, payload_size):
 		resp_payload=icmp_response[8:]
 		if (af==socket.AF_INET and resp_type==0) or (af==socket.AF_INET6 and resp_type==129) and (resp_identifier == identifier) and (resp_sequence == sequence) and (resp_payload == packet.payload):
 			rtt=datetime.datetime.now()-start
-			rtt='{:.3f}'.format((rtt.seconds*1000000 + rtt.microseconds)/1000000)
+			rtt=int((rtt.seconds*1000000 + rtt.microseconds)/10)
 			return rtt
 		else:
 			return False
