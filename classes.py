@@ -1,10 +1,9 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import ipaddress
 
 #class to store host information
 class Host():
-	#if dns==True all functions will try to resolve ip 
 	def __init__(self, hostname, ip="0.0.0.0", poll=False, poll_profile_id=False):
 		self.hostname=hostname
 		self.ip=ip
@@ -17,9 +16,7 @@ class Host():
 			
 class PollProfile():
 	#poll_type can be "icmp", "snmp", "icmp/snmp"
-	#poll interval in seconds
 	#poll timeout in milliseconds
-	#interval must be at least timeout+500msec
 	def __init__(self, type, timeout):
 		try:
 			self.type=type
